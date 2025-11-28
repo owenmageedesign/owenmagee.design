@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Owen Magee</title>
   <style>
-    /* PAGE RESET */
     * {
       margin: 0;
       padding: 0;
@@ -13,38 +12,120 @@
     }
 
     body {
-      height: 100vh;
+      min-height: 100vh;
       background: #000;
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
       overflow: hidden;
     }
 
     .wrapper {
       text-align: center;
+      position: relative;
+      padding: 32px 32px;
       opacity: 0;
-      animation: fadeIn 1.4s ease forwards;
+      animation: fadeIn 1.2s ease forwards;
+      cursor: default;
+      transition: transform 0.25s ease;
+    }
+
+    /* Soft ambient glow behind the text */
+    .wrapper::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at center,
+                  rgba(255, 255, 255, 0.08) 0%,
+                  rgba(255, 255, 255, 0.02) 40%,
+                  rgba(255, 255, 255, 0) 70%);
+      filter: blur(26px);
+      z-index: -1;
+      opacity: 0.9;
+      pointer-events: none;
     }
 
     h1 {
-      font-size: 42px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
+      font-size: 30px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
     }
 
     p {
-      font-size: 18px;
-      letter-spacing: 2px;
-      opacity: 0.85;
+      font-size: 13px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    /* Underline / micro-interaction line */
+    .underline {
+      margin: 14px auto 0;
+      width: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.7);
+      transition: width 0.25s ease, opacity 0.25s ease;
+      opacity: 0;
+    }
+
+    /* Hover / tap micro-interaction */
+    .wrapper:hover,
+    .wrapper:active {
+      transform: translateY(-2px);
+    }
+
+    .wrapper:hover h1,
+    .wrapper:active h1 {
+      opacity: 1;
+    }
+
+    .wrapper:hover p,
+    .wrapper:active p {
+      opacity: 0.95;
+    }
+
+    .wrapper:hover .underline,
+    .wrapper:active .underline {
+      width: 96px;
+      opacity: 1;
     }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(12px); }
       to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile adjustments: nudge content up and tweak sizes */
+    @media (max-width: 600px) {
+      body {
+        padding: 0 20px;
+      }
+
+      .wrapper {
+        padding: 24px 16px;
+        transform: translateY(-6vh); /* sit a bit higher on phones */
+      }
+
+      h1 {
+        font-size: 22px;
+        letter-spacing: 0.18em;
+      }
+
+      p {
+        font-size: 11px;
+        letter-spacing: 0.26em;
+      }
+
+      .wrapper:hover,
+      .wrapper:active {
+        transform: translateY(-7vh); /* keep relative move on tap */
+      }
     }
   </style>
 </head>
@@ -52,6 +133,7 @@
   <div class="wrapper">
     <h1>Owen Magee</h1>
     <p>Multimedia Designer</p>
+    <div class="underline"></div>
   </div>
 </body>
 </html>
